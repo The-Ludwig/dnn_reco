@@ -249,7 +249,8 @@ class NNModel(object):
                     self.count_parameters(self.shared_objects['model_vars'])))
 
         # create saver
-        self.saver = tf.compat.v1.train.Saver(self.shared_objects['model_vars'])
+	# added max_to_keep=100 to compare more trained models to less trained ones
+        self.saver = tf.compat.v1.train.Saver(self.shared_objects['model_vars'], max_to_keep=100)
 
     def _intialize_label_weights(self):
         """Initialize label weights and non zero mask
