@@ -15,7 +15,8 @@ from dnn_reco.ic3.segments import ApplyDNNRecos
 @click.option('-o', '--outfile', default='dnn_output',
               help='Name of output file without file ending.')
 @click.option('-m', '--model_names',
-              default='getting_started_model',
+              default=['getting_started_model'],
+              multiple=True,
               help='Parent directory of exported models.')
 @click.option('-d', '--models_dir',
               default='{DNN_HOME}/exported_models',
