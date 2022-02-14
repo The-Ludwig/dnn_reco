@@ -22,7 +22,8 @@ from dnn_reco.ic3.segments import ApplyDNNRecos
 @click.option(
     "-m",
     "--model_names",
-    default="getting_started_model",
+    default=["getting_started_model"],
+    multiple=True,
     help="Parent directory of exported models.",
 )
 @click.option(
