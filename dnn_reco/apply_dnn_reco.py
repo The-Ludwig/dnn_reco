@@ -24,7 +24,7 @@ from dnn_reco.ic3.segments import ApplyDNNRecos
     "--model_names",
     default=["getting_started_model"],
     multiple=True,
-    help="Parent directory of exported models.",
+    help="(Directory) names of the models. Can be provided multiple times to apply multiple models.",
 )
 @click.option(
     "-d",
