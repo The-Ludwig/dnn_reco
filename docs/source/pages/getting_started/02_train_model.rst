@@ -378,3 +378,76 @@ environment and start training:
     # appropriate GPU that is meant for us. Therefore, we do not
     # need to prepend this as done further above in the tutorial.
     python train_model.py $DNN_HOME/configs/training/getting_started.yaml
+
+
+Running GPU session by submitting a job
+==================================
+
+.. _train_model_sub_gpu:
+
+By setting up 2 files it is possible to submit to NPX
+non-interactively.
+First we need to write the script train.bash to run:
+
+.. code-block:: bash
+
+    #!/bin/bash
+
+    export USER=YOUR_USERNAME_GOES_HERE
+
+    # Recreate environment variable
+    export DNN_HOME=/data/user/${USER}/DNN_tutorial
+
+    # load virtual environment (we don't need icecube env for this)
+    eval $(/cvmfs/icecube.opensciencegrid.org/py3-v4.1.1/setup.sh)
+    source ${DNN_HOME}/py3-v4.1.1_tensorflow2.3/bin/activate
+
+    # add paths to CUDA installation so that we can use the GPU
+    export CUDA_HOME=/data/user/mhuennefeld/software/cuda/cuda-10.1
+    export PATH=$PATH:${CUDA_HOME}/bin
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CUDA_HOME}/lib64
+
+    # we need to turn file locking off
+    export HDF5_USE_FILE_LOCKING='FALSE'
+
+    # go into directory
+    cd $DNN_HOME/repositories/dnn_reco/dnn_reco
+
+    # now we can start training
+    # condor will have already set `CUDA_VISIBLE_DEVICES` to the
+    # appropriate GPU that is meant for us. Therefore, we do not
+    # need to prepend this as done further above in the tutorial.
+    python $DNN_HOME/repositories/dnn_reco/dnn_reco/train_model.py $DNN_HOME/configs/training/direction_test.yaml
+
+Remember to substitute YOUR_USERNAME_GOES_HERE with your username, since it won't be available as 
+an env variable on NPX.
+
+The submition file train.sub: 
+
+.. code-block:: bash
+
+    executable = train.sh
+    log = /home/YOUR_USERNAME_GOES_HERE/train.log
+    output = train.out
+    error = train.err
+    should_transfer_files   = YES
+    when_to_transfer_output = ON_EXIT
+
+    RequestMemory = 12000
+    RequestCpus = 4
+    RequestGpus = 1
+    requirements = CUDACapability
+
+    queue 1
+
+Now you can simply submit your job via 
+
+.. code-block:: bash 
+
+    condor_submit train.sub 
+
+To see if it is running: 
+
+.. code-block:: bash 
+
+    condor_q 
