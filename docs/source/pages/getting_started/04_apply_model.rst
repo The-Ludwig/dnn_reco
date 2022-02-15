@@ -180,13 +180,18 @@ with the above content with your editor of choice.
 We can then apply our model to some of the i3 files of NuGen dataset 11883
 which we have not used in our training set with the following:
 
+.. note::
+    Dataset 11883 is not available anymore, so we will use dataset 
+    11069
+    This will read in about 10 i3 files with about 7500 events, which will take a while.
+
 .. code-block:: bash
 
-    python $DNN_HOME/apply_dnn_reco.py /data/sim/IceCube/2012/filtered/level2/neutrino-generator/11883/01000-01999/clsim-base-4.0.5.0.99_eff/Level2_IC86.2012_nugen_numu.011883.001011.clsim-base-4.0.5.0.99_eff.i3.bz2 -o $DNN_HOME/output/dnn_reco_output
+    python $DNN_HOME/apply_dnn_reco.py /data/sim/IceCube/2012/filtered/level2/neutrino-generator/11069/01000-01999/Level2_nugen_numu_IC86.2012.011069.00199*.i3.bz2 -o $DNN_HOME/output/dnn_reco_output
 
 This will create an hdf5 and an i3 file with the specified file names:
-``$DNN_HOME/output/dnn_reco_output.hdf5`` and
-``$DNN_HOME/output/dnn_reco_output.i3.bz2``.
+``$DNN_HOME/output/dnn_reco_output.hdf5`` (and
+``$DNN_HOME/output/dnn_reco_output.i3.bz2`` if provided with the ``--i3`` flag).
 
 .. note::
     Running the |dnn_reco| on a CPU is much slower than running it on a GPU.
