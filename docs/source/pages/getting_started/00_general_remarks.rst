@@ -26,7 +26,7 @@ created during the installation steps (see :ref:`Installation and Requirements`)
 
     # load icecube environment if not already loaded
     eval $(/cvmfs/icecube.opensciencegrid.org/py3-v4.1.1/setup.sh)
-    source /cvmfs/icecube.opensciencegrid.org/py3-v4.1.1/RHEL_7_x86_64/metaprojects/combo/V01-01-01/env-shell.sh
+    /cvmfs/icecube.opensciencegrid.org/py3-v4.1.1/RHEL_7_x86_64/metaprojects/combo/V01-01-01/env-shell.sh
 
     # set I3_BUILD and I3_SRC to correct directories if not set correctly
     export I3_BUILD=/cvmfs/icecube.opensciencegrid.org/py3-v4.1.1/RHEL_7_x86_64/metaprojects/combo/V01-01-01/
