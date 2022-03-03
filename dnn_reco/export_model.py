@@ -7,6 +7,7 @@ import glob
 import click
 import ruamel.yaml as yaml
 import tensorflow as tf
+import re
 
 from dnn_reco import misc
 from dnn_reco.setup_manager import SetupManager
@@ -113,6 +114,18 @@ def main(config_files, output_folder, data_settings, logs, checkpoint):
         for ending in [".index", ".meta", ".data-00000-of-00001"]:
             shutil.copy2(src=latest_checkpoint + ending, dst=output_folder)
         shutil.copy2(src=os.path.join(checkpoint_dir, "checkpoint"), dst=output_folder)
+
+        # Sets the active checkpoint to used one, instead of the last one
+        if checkpoint is not None:
+            with open(os.path.join(checkpoint_dir, "checkpoint"), "r") as f:
+                content = f.read()
+            content = re.sub(
+                'model_checkpoint_path: "(.+)"',
+                f'model_checkpoint_path: "{checkpoint}"',
+                content,
+            )
+            with open(os.path.join(checkpoint_dir, "checkpoint"), "w") as f:
+                f.write(content)
 
     # -----------------------------
     # read and export data settings
