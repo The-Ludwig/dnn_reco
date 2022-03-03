@@ -117,14 +117,14 @@ def main(config_files, output_folder, data_settings, logs, checkpoint):
 
         # Sets the active checkpoint to used one, instead of the last one
         if checkpoint is not None:
-            with open(os.path.join(checkpoint_dir, "checkpoint"), "r") as f:
+            with open(os.path.join(output_folder, "checkpoint"), "r") as f:
                 content = f.read()
             content = re.sub(
                 'model_checkpoint_path: "(.+)"',
                 f'model_checkpoint_path: "{checkpoint}"',
                 content,
             )
-            with open(os.path.join(checkpoint_dir, "checkpoint"), "w") as f:
+            with open(os.path.join(output_folder, "checkpoint"), "w") as f:
                 f.write(content)
 
     # -----------------------------
